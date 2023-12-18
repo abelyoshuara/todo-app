@@ -1,15 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "flowbite-react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
-import todos from "./interfaces/Todos";
+import Todos from "./interfaces/Todos";
 
-export default function App() {
-  const [todos, setTodos] = useState<todos[]>([]);
+function App() {
+  const [todos, setTodos] = useState<Todos[]>([]);
+  const [filteredTodos, setFilteredTodos] = useState<Todos[]>([]);
   const [name, setName] = useState<string>("");
+  const [isComplete, setIsComplete] = useState<string>("all");
 
-  const nameChangeHandler = (value: string) => {
-    setName(value);
+  const nameChangeHandler = (value: string) => setName(value);
+  const isCompleteChangeHandler = (value: string) => {
+    filterTodos(value);
+    setIsComplete(value);
   };
 
   const addTodoHandler = () => {
@@ -23,16 +27,58 @@ export default function App() {
     setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
+  const updateTodoHandler = (id: string | number) => {
+    setTodos((prevTodos) => {
+      return prevTodos.map((todo: Todos) =>
+        todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo,
+      );
+    });
+  };
+
+  useEffect(() => {
+    filterTodos(isComplete);
+
+    return () => {
+      setFilteredTodos(todos);
+    };
+  }, [isComplete, todos]);
+
+  const filterTodos = (category: string) => {
+    if (category === "all") {
+      setFilteredTodos(todos);
+    } else {
+      setFilteredTodos((prevTodos) =>
+        prevTodos.filter((todo) =>
+          category === "uncomplete" ? !todo.isComplete : todo.isComplete,
+        ),
+      );
+    }
+  };
+
   return (
     <>
       <div className="container">
-        <h1 className="text-slate-700 text-4xl font-bold text-center mt-20">Todo List App</h1>
+        <h1 className="text-slate-700 text-4xl font-bold text-center mt-20">
+          Todo List App
+        </h1>
 
         <Card className="max-w-xl mx-auto mt-7">
-          <TodoInput addTodo={addTodoHandler} nameText={name} onNameTextChange={nameChangeHandler} />
-          <TodoList todos={todos} deleteTodo={deleteTodoHandler} />
+          <TodoInput
+            addTodo={addTodoHandler}
+            nameText={name}
+            onNameTextChange={nameChangeHandler}
+            compeleteCheckbox={isComplete}
+            onCompeleteCheckboxChange={isCompleteChangeHandler}
+          />
+          <TodoList
+            todos={filteredTodos}
+            deleteTodo={deleteTodoHandler}
+            updateTodo={updateTodoHandler}
+          />
         </Card>
       </div>
     </>
   );
 }
+
+export default App;
