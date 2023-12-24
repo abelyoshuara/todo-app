@@ -6,13 +6,12 @@ import Todos from "./interfaces/Todos";
 
 function App() {
   const [todos, setTodos] = useState<Todos[]>([]);
-  const [filteredTodos, setFilteredTodos] = useState<Todos[]>([]);
   const [name, setName] = useState<string>("");
   const [isComplete, setIsComplete] = useState<string>("all");
+  const [filteredTodos, setFilteredTodos] = useState<Todos[]>([]);
 
   const nameChangeHandler = (value: string) => setName(value);
   const isCompleteChangeHandler = (value: string) => {
-    filterTodos(value);
     setIsComplete(value);
   };
 
@@ -36,22 +35,17 @@ function App() {
   };
 
   useEffect(() => {
-    filterTodos(isComplete);
-
-    return () => {
-      setFilteredTodos(todos);
-    };
+    filterTodos();
   }, [isComplete, todos]);
 
-  const filterTodos = (category: string) => {
-    if (category === "all") {
+  const filterTodos = () => {
+    if (isComplete === "all") {
       setFilteredTodos(todos);
     } else {
-      setFilteredTodos((prevTodos) =>
-        prevTodos.filter((todo) =>
-          category === "uncomplete" ? !todo.isComplete : todo.isComplete,
-        ),
+      const filtered = todos.filter((todo) =>
+        isComplete === "uncomplete" ? !todo.isComplete : todo.isComplete,
       );
+      setFilteredTodos(filtered);
     }
   };
 
