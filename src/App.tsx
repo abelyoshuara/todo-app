@@ -15,24 +15,41 @@ function App() {
     setIsComplete(value);
   };
 
+  const getTodos = () => JSON.parse(localStorage.getItem("todos") || "[]");
+
   const addTodoHandler = () => {
     setTodos((prevTodos) => {
-      return [...prevTodos, { id: +new Date(), name, isComplete: false }];
+      const newTodo = [
+        ...prevTodos,
+        { id: +new Date(), name, isComplete: false },
+      ];
+      localStorage.setItem("todos", JSON.stringify(newTodo));
+      return newTodo;
     });
     setName("");
   };
 
   const deleteTodoHandler = (id: string | number) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    setTodos((prevTodos) => {
+      const updateTodo = prevTodos.filter((todo) => todo.id !== id);
+      localStorage.setItem("todos", JSON.stringify(updateTodo));
+      return updateTodo;
+    });
   };
 
   const updateTodoHandler = (id: string | number) => {
     setTodos((prevTodos) => {
-      return prevTodos.map((todo: Todos) =>
+      const updateTodo = prevTodos.map((todo: Todos) =>
         todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo,
       );
+      localStorage.setItem("todos", JSON.stringify(updateTodo));
+      return updateTodo;
     });
   };
+
+  useEffect(() => {
+    setTodos(getTodos());
+  }, []);
 
   useEffect(() => {
     filterTodos();
