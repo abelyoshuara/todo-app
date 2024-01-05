@@ -21,7 +21,12 @@ const TodoItem: FC<TodoItemProps> = ({
         checked={isComplete}
         onChange={() => updateTodo(id)}
       />
-      <Label htmlFor={`item-${id}`}>{name}</Label>
+      <Label
+        htmlFor={`item-${id}`}
+        className={isComplete ? "line-through" : ""}
+      >
+        {name}
+      </Label>
       <Button
         className="ms-auto"
         size="xs"
