@@ -5,16 +5,16 @@ interface TodoInputProps {
   addTodo: () => void;
   nameText: string;
   onNameTextChange: (value: string) => void;
-  compeleteCheckbox: string;
-  onCompeleteCheckboxChange: (value: string) => void;
+  status: string;
+  onStatusCheckboxChange: (value: string) => void;
 }
 
 const TodoInput: FC<TodoInputProps> = ({
   addTodo,
   nameText,
   onNameTextChange,
-  compeleteCheckbox,
-  onCompeleteCheckboxChange,
+  status,
+  onStatusCheckboxChange,
 }) => {
   return (
     <>
@@ -37,8 +37,8 @@ const TodoInput: FC<TodoInputProps> = ({
           <Radio
             id="all"
             value="all"
-            checked={compeleteCheckbox === "all"}
-            onChange={(e) => onCompeleteCheckboxChange(e.target.value)}
+            checked={status === "all"}
+            onChange={(e) => onStatusCheckboxChange(e.target.value)}
           />
           <Label htmlFor="all">Show All</Label>
         </div>
@@ -46,8 +46,8 @@ const TodoInput: FC<TodoInputProps> = ({
           <Radio
             id="uncomplete"
             value="uncomplete"
-            checked={compeleteCheckbox === "uncomplete"}
-            onChange={(e) => onCompeleteCheckboxChange(e.target.value)}
+            checked={status === "uncomplete"}
+            onChange={(e) => onStatusCheckboxChange(e.target.value)}
           />
           <Label htmlFor="uncomplete">Show Uncomplete</Label>
         </div>
@@ -55,8 +55,8 @@ const TodoInput: FC<TodoInputProps> = ({
           <Radio
             id="completed"
             value="completed"
-            checked={compeleteCheckbox === "completed"}
-            onChange={(e) => onCompeleteCheckboxChange(e.target.value)}
+            checked={status === "completed"}
+            onChange={(e) => onStatusCheckboxChange(e.target.value)}
           />
           <Label htmlFor="completed">Show Compeleted</Label>
         </div>
