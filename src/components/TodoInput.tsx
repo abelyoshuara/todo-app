@@ -2,7 +2,7 @@ import { FC } from "react";
 import { TextInput, Button, Radio, Label } from "flowbite-react";
 
 interface TodoInputProps {
-  addTodo: () => void;
+  onAddTodo: () => void;
   nameText: string;
   onNameTextChange: (value: string) => void;
   status: string;
@@ -10,7 +10,7 @@ interface TodoInputProps {
 }
 
 const TodoInput: FC<TodoInputProps> = ({
-  addTodo,
+  onAddTodo,
   nameText,
   onNameTextChange,
   status,
@@ -27,7 +27,7 @@ const TodoInput: FC<TodoInputProps> = ({
           onChange={(e) => onNameTextChange(e.target.value)}
           placeholder="Enter your todo"
         />
-        <Button className="ms-auto" onClick={addTodo}>
+        <Button className="ms-auto" onClick={onAddTodo}>
           Add
         </Button>
       </div>

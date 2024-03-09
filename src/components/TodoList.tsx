@@ -4,11 +4,11 @@ import TodoItem from "./TodoItem";
 
 interface TodoListProps {
   todos: Todos[];
-  deleteTodo: (id: string | number) => void;
-  updateTodo: (id: string | number) => void;
+  onDeleteTodo: (id: string | number) => void;
+  onUpdateTodo: (id: string | number) => void;
 }
 
-const TodoList: FC<TodoListProps> = ({ todos, deleteTodo, updateTodo }) => {
+const TodoList: FC<TodoListProps> = ({ todos, onDeleteTodo, onUpdateTodo }) => {
   return (
     <div className="flex flex-col gap-4 w-full mt-2" id="checkbox">
       {todos.length ? (
@@ -16,8 +16,8 @@ const TodoList: FC<TodoListProps> = ({ todos, deleteTodo, updateTodo }) => {
           <TodoItem
             key={todo.id}
             {...todo}
-            deleteTodo={() => deleteTodo(todo.id)}
-            updateTodo={() => updateTodo(todo.id)}
+            onDeleteTodo={() => onDeleteTodo(todo.id)}
+            onUpdateTodo={() => onUpdateTodo(todo.id)}
           />
         ))
       ) : (

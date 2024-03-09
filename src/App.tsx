@@ -12,7 +12,7 @@ function App() {
     JSON.parse(localStorage.getItem("todos") || "[]"),
   );
 
-  const addTodoHandler = () => {
+  const handleAddTodo = () => {
     setTodos((prevTodos) => {
       const newTodo = [
         ...prevTodos,
@@ -24,7 +24,7 @@ function App() {
     setName("");
   };
 
-  const deleteTodoHandler = (id: string | number) => {
+  const handleDeleteTodo = (id: string | number) => {
     setTodos((prevTodos) => {
       const updateTodo = prevTodos.filter((todo) => todo.id !== id);
       localStorage.setItem("todos", JSON.stringify(updateTodo));
@@ -32,7 +32,7 @@ function App() {
     });
   };
 
-  const updateTodoHandler = (id: string | number) => {
+  const handleUpdateTodo = (id: string | number) => {
     setTodos((prevTodos) => {
       const updateTodo = prevTodos.map((todo: Todos) =>
         todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo,
@@ -61,7 +61,7 @@ function App() {
 
       <Card className="max-w-xl mx-auto mt-7">
         <TodoInput
-          addTodo={addTodoHandler}
+          onAddTodo={handleAddTodo}
           nameText={name}
           onNameTextChange={setName}
           status={status}
@@ -69,8 +69,8 @@ function App() {
         />
         <TodoList
           todos={filteredTodos}
-          deleteTodo={deleteTodoHandler}
-          updateTodo={updateTodoHandler}
+          onDeleteTodo={handleDeleteTodo}
+          onUpdateTodo={handleUpdateTodo}
         />
       </Card>
     </div>
