@@ -1,57 +1,43 @@
-import { useEffect, useState } from "react";
+import { useMemo, useReducer, useState } from "react";
 import { Card } from "flowbite-react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
-import Todos from "./interfaces/Todos";
+import { Action, initialTodos, todosReducer } from "./reducers/todos";
 
 function App() {
+  const [todos, dispatch] = useReducer(todosReducer, initialTodos);
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<string>("all");
-  const [filteredTodos, setFilteredTodos] = useState<Todos[]>([]);
-  const [todos, setTodos] = useState<Todos[]>(
-    JSON.parse(localStorage.getItem("todos") || "[]"),
-  );
+
+  const filteredTodos = useMemo(() => {
+    return status === "all"
+      ? todos
+      : todos.filter((todo) =>
+          status === "uncomplete" ? !todo.isComplete : todo.isComplete,
+        );
+  }, [status, todos]);
 
   const handleAddTodo = () => {
-    setTodos((prevTodos) => {
-      const newTodo = [
-        ...prevTodos,
-        { id: +new Date(), name, isComplete: false },
-      ];
-      localStorage.setItem("todos", JSON.stringify(newTodo));
-      return newTodo;
-    });
+    dispatch({
+      type: "ADD_TODO",
+      payload: { name, isComplete: false },
+    } as Action);
     setName("");
   };
 
   const handleDeleteTodo = (id: string | number) => {
-    setTodos((prevTodos) => {
-      const updateTodo = prevTodos.filter((todo) => todo.id !== id);
-      localStorage.setItem("todos", JSON.stringify(updateTodo));
-      return updateTodo;
-    });
+    dispatch({
+      type: "DELETE_TODO",
+      payload: { id },
+    } as Action);
   };
 
   const handleUpdateTodo = (id: string | number) => {
-    setTodos((prevTodos) => {
-      const updateTodo = prevTodos.map((todo: Todos) =>
-        todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo,
-      );
-      localStorage.setItem("todos", JSON.stringify(updateTodo));
-      return updateTodo;
-    });
+    dispatch({
+      type: "UPDATE_TODO",
+      payload: { id },
+    } as Action);
   };
-
-  useEffect(() => {
-    if (status === "all") {
-      setFilteredTodos(todos);
-    } else {
-      const filtered = todos.filter((todo) =>
-        status === "uncomplete" ? !todo.isComplete : todo.isComplete,
-      );
-      setFilteredTodos(filtered);
-    }
-  }, [status, todos]);
 
   return (
     <div className="container">

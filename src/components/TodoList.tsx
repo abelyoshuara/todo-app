@@ -1,9 +1,9 @@
 import { FC } from "react";
-import Todos from "../interfaces/Todos";
+import type { Todo } from "../types/Todo";
 import TodoItem from "./TodoItem";
 
 interface TodoListProps {
-  todos: Todos[];
+  todos: Todo[];
   onDeleteTodo: (id: string | number) => void;
   onUpdateTodo: (id: string | number) => void;
 }
