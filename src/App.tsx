@@ -3,27 +3,10 @@ import { Card } from "flowbite-react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
 import type { Todo } from "./types/Todo";
-
-type State = { value: number };
-type Action = { type: string };
-
-function reducer(state: State, action: Action) {
-  switch (action.type) {
-    case "INCREMENT":
-      return { value: state.value + 1 };
-
-    case "DECREMENT":
-      return { value: state.value - 1 };
-
-    default:
-      throw new Error("Unknown action.");
-  }
-}
-
-const initialState: State = { value: 0 };
+import { initialCounter, counterReducer } from "./reducers/counter";
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [counter, dispatch] = useReducer(counterReducer, initialCounter);
 
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<string>("all");
@@ -79,7 +62,7 @@ function App() {
 
       <button onClick={() => dispatch({ type: "INCREMENT" })}>increment</button>
       <hr />
-      <span>{state.value}</span>
+      <span>{counter.value}</span>
       <hr />
       <button onClick={() => dispatch({ type: "DECREMENT" })}>decrement</button>
 
