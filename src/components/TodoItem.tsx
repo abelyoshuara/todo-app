@@ -1,8 +1,8 @@
 import { Checkbox, Label, Button } from "flowbite-react";
-import Todos from "../types/Todo";
+import type { Todo } from "../types/Todo";
 import { FC } from "react";
 
-interface TodoItemProps extends Todos {
+interface TodoItemProps extends Todo {
   onDeleteTodo: (id: string | number) => void;
   onUpdateTodo: (id: string | number) => void;
 }
