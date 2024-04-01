@@ -2,7 +2,7 @@ import { useEffect, useReducer, useState } from "react";
 import { Card } from "flowbite-react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
-import Todos from "./interfaces/Todos";
+import type { Todo } from "./types/Todo";
 
 type State = { value: number };
 type Action = { type: string };
@@ -27,8 +27,8 @@ function App() {
 
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<string>("all");
-  const [filteredTodos, setFilteredTodos] = useState<Todos[]>([]);
-  const [todos, setTodos] = useState<Todos[]>(
+  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(
     JSON.parse(localStorage.getItem("todos") || "[]"),
   );
 
@@ -54,7 +54,7 @@ function App() {
 
   const handleUpdateTodo = (id: string | number) => {
     setTodos((prevTodos) => {
-      const updateTodo = prevTodos.map((todo: Todos) =>
+      const updateTodo = prevTodos.map((todo: Todo) =>
         todo.id === id ? { ...todo, isComplete: !todo.isComplete } : todo,
       );
       localStorage.setItem("todos", JSON.stringify(updateTodo));

@@ -1,5 +1,5 @@
 import { Checkbox, Label, Button } from "flowbite-react";
-import Todos from "../interfaces/Todos";
+import Todos from "../types/Todo";
 import { FC } from "react";
 
 interface TodoItemProps extends Todos {

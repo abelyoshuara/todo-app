@@ -1,5 +1,5 @@
 import { FC } from "react";
-import Todos from "../interfaces/Todos";
+import Todos from "../types/Todo";
 import TodoItem from "./TodoItem";
 
 interface TodoListProps {
