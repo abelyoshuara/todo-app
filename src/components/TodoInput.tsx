@@ -16,9 +16,14 @@ const TodoInput: FC<TodoInputProps> = ({
   status,
   onStatusCheckboxChange,
 }) => {
+  const handleAddTodo = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    onAddTodo();
+  };
+
   return (
     <>
-      <div className="flex w-full gap-x-4">
+      <form onSubmit={handleAddTodo} className="flex w-full gap-x-4">
         <TextInput
           type="text"
           className="w-full"
@@ -27,10 +32,10 @@ const TodoInput: FC<TodoInputProps> = ({
           onChange={(e) => onNameTextChange(e.target.value)}
           placeholder="Enter your todo"
         />
-        <Button className="ms-auto" onClick={onAddTodo}>
+        <Button type="submit" className="ms-auto">
           Add
         </Button>
-      </div>
+      </form>
 
       <div className="flex flex-wrap gap-x-8">
         <div className="flex items-center gap-2">
