@@ -1,10 +1,25 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Card } from "flowbite-react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
 import Todos from "./interfaces/Todos";
 
+function reducer(state: { value: number }, action: { type: string }) {
+  switch (action.type) {
+    case "INCREMENT":
+      return { value: state.value + 1 };
+
+    case "DECREMENT":
+      return { value: state.value - 1 };
+
+    default:
+      throw Error("Unknown action.");
+  }
+}
+
 function App() {
+  const [state, dispatch] = useReducer(reducer, { value: 0 });
+
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<string>("all");
   const [filteredTodos, setFilteredTodos] = useState<Todos[]>([]);
@@ -58,6 +73,12 @@ function App() {
       <h1 className="text-slate-700 text-4xl font-bold text-center mt-20">
         Todo List App
       </h1>
+
+      <button onClick={() => dispatch({ type: "INCREMENT" })}>increment</button>
+      <hr />
+      <span>{state.value}</span>
+      <hr />
+      <button onClick={() => dispatch({ type: "DECREMENT" })}>decrement</button>
 
       <Card className="max-w-xl mx-auto mt-7">
         <TodoInput
