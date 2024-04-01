@@ -4,21 +4,33 @@ import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
 import Todos from "./interfaces/Todos";
 
-function reducer(state: { value: number }, action: { type: string }) {
+type State = {
+  counter: {
+    value: number;
+  };
+};
+
+type Action = { type: string };
+
+function reducer(state: State, action: Action) {
   switch (action.type) {
     case "INCREMENT":
-      return { value: state.value + 1 };
+      return { counter: { value: state.counter.value + 1 } };
 
     case "DECREMENT":
-      return { value: state.value - 1 };
+      return { counter: { value: state.counter.value - 1 } };
 
     default:
-      throw Error("Unknown action.");
+      throw new Error("Unknown action.");
   }
 }
 
+const initialState: State = {
+  counter: { value: 0 },
+};
+
 function App() {
-  const [state, dispatch] = useReducer(reducer, { value: 0 });
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<string>("all");
@@ -76,7 +88,7 @@ function App() {
 
       <button onClick={() => dispatch({ type: "INCREMENT" })}>increment</button>
       <hr />
-      <span>{state.value}</span>
+      <span>{state.counter.value}</span>
       <hr />
       <button onClick={() => dispatch({ type: "DECREMENT" })}>decrement</button>
 
