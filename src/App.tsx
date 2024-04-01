@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react";
+import { useMemo, useReducer, useState } from "react";
 import { Card } from "flowbite-react";
 import TodoList from "./components/TodoList";
 import TodoInput from "./components/TodoInput";
@@ -27,7 +27,6 @@ function App() {
 
   const [name, setName] = useState<string>("");
   const [status, setStatus] = useState<string>("all");
-  const [filteredTodos, setFilteredTodos] = useState<Todo[]>([]);
   const [todos, setTodos] = useState<Todo[]>(
     JSON.parse(localStorage.getItem("todos") || "[]"),
   );
@@ -62,14 +61,13 @@ function App() {
     });
   };
 
-  useEffect(() => {
+  const filteredTodos = useMemo(() => {
     if (status === "all") {
-      setFilteredTodos(todos);
+      return todos;
     } else {
-      const filtered = todos.filter((todo) =>
+      return todos.filter((todo) =>
         status === "uncomplete" ? !todo.isComplete : todo.isComplete,
       );
-      setFilteredTodos(filtered);
     }
   }, [status, todos]);
 
