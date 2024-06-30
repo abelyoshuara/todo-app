@@ -32,7 +32,7 @@ const TodoInput: FC<TodoInputProps> = ({
           onChange={(e) => onNameTextChange(e.target.value)}
           placeholder="Enter your todo"
         />
-        <Button type="submit" className="ms-auto">
+        <Button type="submit" className="ms-auto" color="blue">
           Add
         </Button>
       </form>
